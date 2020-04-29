@@ -13,8 +13,11 @@ public class GrappingHook : MonoBehaviour
     public static bool fired;
     public bool hooked;
 
+    public GameObject hookedobj;
+
     public float maxDistance;
     private float currentDistance;
+
 
     private void Update()
     {
@@ -35,22 +38,26 @@ public class GrappingHook : MonoBehaviour
             }
         }
 
-        if (hooked == true)
+        if (hooked == true && fired == true)
         {
-            transform.position = Vector3.MoveTowards(transform.position, hook.transform.position, Time.deltaTime * playerTravelSpeed);
+            hook.transform.parent = hookedobj.transform;
+
+            this.GetComponent<CharacterController>().enabled = false;
+
+            transform.position = Vector3.MoveTowards(transform.position, hook.transform.position, playerTravelSpeed);
+            var playerPosition = transform.position;
+            var hookPosition = transform.position;
             float distanceToHook = Vector3.Distance(transform.position, hook.transform.position);
 
-            //this.GetComponent<Rigidbody>().useGravity = false;
-
-
-            if (distanceToHook < 1)
+   
+            if (playerPosition == hookPosition)
             {
                 returnHook();
             }
             else
             {
-                //this.GetComponent<Rigidbody>().useGravity = true;
-                
+                hook.transform.parent = hookHolder.transform;
+                this.GetComponent<CharacterController>().enabled = true;
             }
         }
 
@@ -58,8 +65,12 @@ public class GrappingHook : MonoBehaviour
 
     void returnHook()
     {
+        hook.transform.rotation = hookHolder.transform.rotation;
+        hook.transform.parent = hookHolder.transform;
         hook.transform.position = hookHolder.transform.position;
         fired = false;
         hooked = false;
+        this.GetComponent<CharacterController>().enabled = true;
+       
     }
 }
