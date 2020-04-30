@@ -18,7 +18,6 @@ public class GrappingHook : MonoBehaviour
     public float maxDistance;
     private float currentDistance;
 
-
     private void Update()
     {
         //Firing the hook
@@ -27,6 +26,7 @@ public class GrappingHook : MonoBehaviour
             fired = true;
         }
 
+        //Fired but not hooked
         if (fired == true && hooked == false)
         {
             hook.transform.Translate(Vector3.forward * Time.deltaTime * hookTravelSpeed);
@@ -38,19 +38,18 @@ public class GrappingHook : MonoBehaviour
             }
         }
 
+        //Fired and Hooked
         if (hooked == true && fired == true)
         {
             hook.transform.parent = hookedobj.transform;
-
+            this.GetComponent<PlayerMovement>().velocity.y = 0f;
             this.GetComponent<CharacterController>().enabled = false;
-
-            transform.position = Vector3.MoveTowards(transform.position, hook.transform.position, playerTravelSpeed);
-            var playerPosition = transform.position;
-            var hookPosition = transform.position;
+            this.GetComponent<PlayerMovement>().gravity = 1f;
+            transform.position = Vector3.MoveTowards(transform.position, hook.transform.position, Time.deltaTime * playerTravelSpeed);
             float distanceToHook = Vector3.Distance(transform.position, hook.transform.position);
 
    
-            if (playerPosition == hookPosition)
+            if (distanceToHook < 2)
             {
                 returnHook();
             }
@@ -59,6 +58,11 @@ public class GrappingHook : MonoBehaviour
                 hook.transform.parent = hookHolder.transform;
                 this.GetComponent<CharacterController>().enabled = true;
             }
+        }
+
+        if (fired == false)
+        {
+            hooked = false;
         }
 
     }
@@ -71,6 +75,6 @@ public class GrappingHook : MonoBehaviour
         fired = false;
         hooked = false;
         this.GetComponent<CharacterController>().enabled = true;
-       
+        this.GetComponent<PlayerMovement>().gravity = -19f;
     }
 }
