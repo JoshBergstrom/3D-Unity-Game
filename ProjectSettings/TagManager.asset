@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Hook
   - Hookable
+  - HookHolder
   layers:
   - Default
   - TransparentFX
@@ -15,10 +16,10 @@ TagManager:
   - UI
   - 
   - 
-  - Vault
-  - Ledge
-  - Ladder
-  - Wallrun
+  - Ground
+  - 
+  - 
+  - 
   - 
   - 
   - 
