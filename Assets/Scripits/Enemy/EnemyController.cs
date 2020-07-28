@@ -42,23 +42,23 @@ public class EnemyController : MonoBehaviour
             lookRadius = 50;
             if (distance >= 15)
             {
-                agent.speed = 8;
+                agent.speed = 13;
             }
             else
             {
-                agent.speed = 3;
+                agent.speed = 5;
             }
+        }
+        else if(distance <= lookRadius)
+        {
+            shouldTurn = true;
+            agent.ResetPath();
+           
         }
 
     }
    
-    void OnTriggerEnter()
-    {
-        shouldTurn = true;
-        agent.ResetPath();
-        transform.LookAt(player.transform);
- 
-    }
+
 
 
     void OnDrawGizmosSelected()

@@ -9,6 +9,7 @@ public class MouseLook : MonoBehaviour
 
     //refers to Charater Controller
     public Transform playerBody;
+    public Transform weapon;
 
     float xRotation = 0f;
 
@@ -22,6 +23,7 @@ public class MouseLook : MonoBehaviour
     void Update()
     {
         mouseLook();
+        
     }
 
     void mouseLook()
@@ -29,7 +31,7 @@ public class MouseLook : MonoBehaviour
         //Mouse Input
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
-
+        
         xRotation -= mouseY;
         //Stops head from turning too far
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
